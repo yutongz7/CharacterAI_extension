@@ -301,7 +301,7 @@
         // Check if fetching process already started for this character
         if (meta.getAttribute('fetchHistStarted')) {
             if (meta.getAttribute('cai_history')) {
-                handleProgressInfoHist(`(Ready!)`);
+                handleProgressInfoHist(`(Data is ready!)`);
             }
             return;
         }
@@ -393,13 +393,15 @@
             // Increase the fetched index
             fetchedChatNumber++;
             // Update the informative text
-            handleProgressInfoHist(`(Loading history... ${fetchedChatNumber}/${historyLength})`);
+            // handleProgressInfoHist(`(Loading history... ${fetchedChatNumber}/${historyLength})`);
+            // show percentage
+            handleProgressInfoHist(`Requesting... ${Math.round(fetchedChatNumber / historyLength * 100)}% Complete`);
         }
 
         // Save history in meta tag
         meta.setAttribute('cai_history', JSON.stringify(finalHistory));
         // Update the informative text
-        handleProgressInfoHist(`(Ready!)`);
+        handleProgressInfoHist(`(The data is ready!)`);
         console.log("FINISHED", finalHistory);
     };
 
@@ -448,11 +450,11 @@
                     </div>
                     <div class="cait-body">
                         <div class="history_loading-cont">
-                            <button type="button" class="fetchHistory-btn">Start fetch</button>
-                            <span class='cait_progressInfo_Hist'>(Waiting command...)</span>
+                            <button type="button" class="fetchHistory-btn">Request Data</button>
+                            <span class='cait_progressInfo_Hist'>(Click the button to request data)</span>
                         </div>
                         <ul>
-                            <li data-cait_type='cai_hist_offline_read'>Offline History</li>
+                            <li data-cait_type='cai_hist_offline_read'>Download Data</li>
                         </ul>
                     </div>
                 </div>
