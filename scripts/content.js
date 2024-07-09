@@ -439,35 +439,14 @@
         const cai_tools_string = `
             <div class="cait_button-cont" data-tool="cai_tools">
                 <div class="dragCaitBtn">&#9946;</div>
-                <button class="cai_tools-btn">CAI Tools</button>
+                <button class="cai_tools-btn">Character.AI Study Tool</button>
             </div>
             <div class="cai_tools-cont" data-tool="cai_tools">
                 <div class="cai_tools">
                     <div class="cait-header">
-                        <h4>CAI Tools</h4><span class="cait-close">x</span>
+                        <h4>Character.AI Study Tool</h4><span class="cait-close">x</span>
                     </div>
-                    <a href="https://www.patreon.com/Irsat" target="_blank" class="donate_link">Support me on Patreon</a>
                     <div class="cait-body">
-                        <span class="cait_warning"></span>
-                        <h6>Character</h6>
-                        <ul>
-                            <li data-cait_type='memory_manager'>Memory Manager</li>
-                            <li data-cait_type='character_hybrid'>Character (json)</li>
-                            <li data-cait_type='character_card'>Character Card (png)</li>
-                            <li data-cait_type='character_settings'>Show settings</li>
-                            <li data-cait_type='character_copy'>Create Private Copy (NEW!)</li>
-                        </ul>
-                        <h6>This conversation</h6>
-                        <span class='cait_progressInfo'>(Loading...)</span>
-                        <ul>
-                            <li data-cait_type='cai_duplicate_chat'>Create Duplicate <i>(Last 100 msgs)</i></li>
-                            <li data-cait_type='cai_duplicate_chat_full'>Create Duplicate <i>(Full)</i></li>
-                            <li data-cait_type='cai_offline_read'>Offline Chat</li>
-                            <li data-cait_type='example_chat'>Chat as Definition</li>
-                            <li data-cait_type='oobabooga'>Oobabooga chat</li>
-							<li data-cait_type='tavern'>Tavern chat</li>
-                        </ul>
-                        <h6>History</h6>
                         <div class="history_loading-cont">
                             <button type="button" class="fetchHistory-btn">Start fetch</button>
                             <span class='cait_progressInfo_Hist'>(Waiting command...)</span>
@@ -478,43 +457,10 @@
                     </div>
                 </div>
             </div>
-            <div class="cait_settings-cont" data-tool="cai_tools">
-                <div class="cait_settings">
-                    <div class="caits_header">
-                        <h4>Settings</h4><span class="caits-close">x</span>
-                    </div>
-                    <div class="caits-body">
-                        <div class="caits-content">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="cait_memory_manager-cont" data-tool="cai_tools" data-import_needed="true">
-                <div class="cait_memory_manager">
-                    <div class="caitmm_header">
-                        <h4>Memory Manager</h4><span class="caitmm-close">x</span>
-                    </div>
-                    <div class="caitmm-body">
-                        <label class="mm_status">Active <input type="checkbox" name="cait_mm_active" unchecked /></label>
-                        <span class="note">Note: 0 frequency means every message.</span>
-                        <span class="reminder-wrap">
-                            Remind every <input type="number" name="remind_frequency" value="5" min="0" max="100" /> messages
-                        </span>
-                        <textarea class="mm_new_memory" name="new_memory" placeholder='New memory (Line breaks are not recommended but will work) (Click "Add New" and "Save")'></textarea>
-                        <button type="button" class="add_new_memory">Add New</button>
-                        <ul class="mm-current_memory_list">
-                        </ul>
-                        <div class="mm-action-cont">
-                            <button type="button" class="cancel">Cancel</button>
-                            <button type="button" class="save">Save</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="cait_info-cont" data-tool="cai_tools">
                 <div class="cait_info">
                     <div class="caiti_header">
-                        <h4>CAI Tools</h4><span class="caiti-close">x</span>
+                        <h4>Character.AI Tool</h4><span class="caiti-close">x</span>
                     </div>
                     <div class="caiti-body">
                     </div>
@@ -566,85 +512,6 @@
             if (target.classList.contains('cai_tools-cont') || target.classList.contains('cait-close')) {
                 close_caiToolsModal();
             }
-        });
-        document.querySelector('.cait_settings-cont').addEventListener('click', (event) => {
-            const target = event.target;
-            if (target.classList.contains('cait_settings-cont') || target.classList.contains('caits-close')) {
-                close_caitSettingsModal();
-            }
-        });
-        document.querySelector('.cait_memory_manager-cont').addEventListener('mousedown', (event) => {
-            const target = event.target;
-            if (target.classList.contains('cait_memory_manager-cont') || target.classList.contains('caitmm-close')) {
-                setTimeout(() => {
-                    close_caitMemoryManagerModal();
-                    // To prevent further click by accident, mousedown immediately runs, not when mouse is lifted
-                }, 200);
-            }
-        });
-        document.querySelector('.cait_info-cont').addEventListener('click', (event) => {
-            const target = event.target;
-            if (target.classList.contains('cait_info-cont') || target.classList.contains('caiti-close')) {
-                close_caitInfoModal();
-            }
-        });
-
-        // Features on click
-        document.querySelector('.cai_tools-cont [data-cait_type="memory_manager"]').addEventListener('click', () => {
-            MemoryManager();
-            close_caiToolsModal();
-        });
-
-        document.querySelector('.cai_tools-cont [data-cait_type="character_hybrid"]').addEventListener('click', () => {
-            const args = { downloadType: 'cai_character_hybrid' };
-            DownloadCharacter(args);
-            close_caiToolsModal();
-        });
-        document.querySelector('.cai_tools-cont [data-cait_type="character_card"]').addEventListener('click', () => {
-            const args = { downloadType: 'cai_character_card' };
-            DownloadCharacter(args);
-            close_caiToolsModal();
-        });
-        document.querySelector('.cai_tools-cont [data-cait_type="character_settings"]').addEventListener('click', () => {
-            const args = { downloadType: 'cai_character_settings' };
-            DownloadCharacter(args);
-            close_caiToolsModal();
-        });
-        document.querySelector('.cai_tools-cont [data-cait_type="character_copy"]').addEventListener('click', () => {
-            const args = { downloadType: 'character_copy' };
-            DownloadCharacter(args);
-            close_caiToolsModal();
-        });
-
-        document.querySelector('.cai_tools-cont [data-cait_type="cai_offline_read"]').addEventListener('click', () => {
-            const args = { downloadType: 'cai_offline_read' };
-            DownloadConversation(args);
-            close_caiToolsModal();
-        });
-        document.querySelector('.cai_tools-cont [data-cait_type="cai_duplicate_chat"]').addEventListener('click', () => {
-            const args = { downloadType: 'cai_duplicate_chat' };
-            DownloadConversation(args);
-            close_caiToolsModal();
-        });
-        document.querySelector('.cai_tools-cont [data-cait_type="cai_duplicate_chat_full"]').addEventListener('click', () => {
-            const args = { downloadType: 'cai_duplicate_chat_full' };
-            DownloadConversation(args);
-            close_caiToolsModal();
-        });
-        document.querySelector('.cai_tools-cont [data-cait_type="oobabooga"]').addEventListener('click', () => {
-            const args = { downloadType: 'oobabooga' };
-            DownloadConversation(args);
-            close_caiToolsModal();
-        });
-        document.querySelector('.cai_tools-cont [data-cait_type="tavern"]').addEventListener('click', () => {
-            const args = { downloadType: 'tavern' };
-            DownloadConversation(args);
-            close_caiToolsModal();
-        });
-        document.querySelector('.cai_tools-cont [data-cait_type="example_chat"]').addEventListener('click', () => {
-            const args = { downloadType: 'example_chat' };
-            DownloadConversation(args);
-            close_caiToolsModal();
         });
 
         document.querySelector('.cai_tools-cont .fetchHistory-btn').addEventListener('click', () => {
@@ -1424,10 +1291,24 @@
         const blob = new Blob([jsonString], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
+
+        function getUserNameFromHistory(history) {
+            for (let session of history) {
+                for (let chat of session.chat) {
+                    if (chat.isUser) {
+                        return chat.name;
+                    }
+                }
+            }
+            return "No user found";
+        }
+
+        // Update file name - Yutong
         const currentDate = new Date();
         const formattedDate = `${currentDate.getFullYear()}${currentDate.getMonth() + 1 < 10 ? '0' + (currentDate.getMonth() + 1) : currentDate.getMonth() + 1}${currentDate.getDate() < 10 ? '0' + currentDate.getDate() : currentDate.getDate()}`;
+        const userName = getUserNameFromHistory(offlineHistory);
         link.href = url;
-        link.download = default_character_name ? `${default_character_name.replaceAll(' ', '_')}_${formattedDate}_info.json` : `Offline_Chat_${formattedDate}.json`;
+        link.download = default_character_name ? `${userName}_${default_character_name.replaceAll(' ', '_')}_${formattedDate}_info.json` : `Offline_Chat_${formattedDate}.json`;
         link.click();
     }
     
