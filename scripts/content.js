@@ -3,7 +3,7 @@
 (() => {
     // These values must be updated when required
     const extAPI = chrome; // chrome / browser
-    const extVersion = "2.1.0";
+    const extVersion = "1.1.0";
 
     const metadata = {
         version: 1,
@@ -11,9 +11,8 @@
         modified: Date.now(),
         source: null,
         tool: {
-            name: "CAI Tools",
+            name: "Character.AI Data Donation Tool",
             version: extVersion,
-            url: "https://www.github.com/irsat000/CAI-Tools"
         }
     };
 
@@ -177,8 +176,8 @@
             else
                 throw res;
         } catch (error) {
-            alert("Unexpected CAI Tools error, please report on Github");
-            console.error("Unexpected CAI Tools error: " + error);
+            alert("Unexpected tool error, please report to the contact email.");
+            console.error("Unexpected tool error: " + error);
         }
     };
 
@@ -248,8 +247,8 @@
             else
                 throw res;
         } catch (error) {
-            alert("Unexpected CAI Tools error, please report on Github");
-            console.error("Unexpected CAI Tools error: " + error);
+            alert("Unexpected tools error, please report to the contact email.");
+            console.error("Unexpected tools error: " + error);
         }
     }
 
@@ -350,7 +349,7 @@
                 }
             }
         } catch (error) {
-            console.log("CAI Tools error: " + error);
+            console.log("fetchHistory error: " + error);
         }
 
         if (!chatList.length) {
@@ -432,12 +431,12 @@
     // FETCH END
 
 
-    // CAI Tools - DOM
+    // Tools - DOM
 
     function initialize_caitools() {
         const BODY = document.getElementsByTagName('BODY')[0];
 
-        // CAI TOOLS Elements
+        // TOOLS Elements
         const cai_tools_string = `
             <div class="cait_button-cont" data-tool="cai_tools">
                 <div class="dragCaitBtn">&#9946;</div>
@@ -508,7 +507,7 @@
             }
         }
 
-        // Close CAI Tools modals
+        // Close Tools modals
         document.querySelector('.cai_tools-cont').addEventListener('click', (event) => {
             const target = event.target;
             if (target.classList.contains('cai_tools-cont') || target.classList.contains('cait-close')) {
@@ -538,7 +537,7 @@
     function close_caitInfoModal() {
         document.querySelector('.cait_info-cont').classList.remove('active');
     }
-    // CAI Tools - DOM - END
+    // Tools - DOM - END
 
 
 
@@ -816,7 +815,7 @@
             socket.addEventListener("close", (event) => {
                 if (!chatIsCreated) {
                     alert('Error when trying to create new chat.');
-                    console.log("CAI Tools error: " + event);
+                    console.log(" Tools error: " + event);
                 }
             });
 
@@ -1765,7 +1764,7 @@
         // *.character.ai/chat
         return window.location.hostname + '/' + window.location.pathname.split('/')[1];
     }
-    // Get the progress info from cai tools box, such as "(Ready!)" or "(Loading...)"
+    // Get the progress info from tools box, such as "(Ready!)" or "(Loading...)"
     function getProgressInfo() {
         return document.querySelector('.cai_tools-cont .cait_progressInfo')?.textContent;
     }
@@ -1846,7 +1845,7 @@
         //Allows user to drag the button.
         makeDraggable(content.querySelector('.cait_button-cont'));
 
-        //Three taps on dragger will remove the cai tools button.
+        //Three taps on dragger will remove the tools button.
         const handleTapToDisable = (() => {
             let tapCount = 0;
             let tapTimer;

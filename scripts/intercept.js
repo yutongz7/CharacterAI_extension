@@ -130,7 +130,7 @@ wsHook.before = function (data, url, wsObject) {
 
 
 xhook.before(function (request) {
-    // Save access token for to keep cai tools functioning
+    // Save access token for to keep tools functioning
     const AccessToken = request.headers.Authorization;
     if (AccessToken && AccessToken.includes('Token ')) {
         createAccessTokenMeta(AccessToken);
@@ -224,7 +224,7 @@ function addMemoryToMessage(original) {
         function formatMemory(memory) {
             return memory.replace(/"/g, '”').replace(/\n+/g, ' — ');
         }
-        // Parse cai tools settings from storage
+        // Parse tools settings from storage
         let memoryPart = "";
         const charMemories = checkMemoryManager("getList");
         // Push the memories
