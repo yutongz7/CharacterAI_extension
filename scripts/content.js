@@ -1263,28 +1263,50 @@
         }
 
         // Character Info - Yutong
-        // const fetchUrl = "https://plus.character.ai/chat/character/";
-        // const AccessToken = getAccessToken();
-        // const charId = getCharId();
-        // const payload = { external_id: charId }
+        const fetchUrl = "https://plus.character.ai/chat/character/";
+        const AccessToken = getAccessToken();
+        const charId = getCharId();
+        const payload = { external_id: charId }
         
-        // if (AccessToken !== null && charId !== null) {
-        //     try {
-        //         characterData = await helperFetchCharacterInfo(fetchUrl, AccessToken, payload);
-        //         console.log("characterData: ", characterData);
-        //     } catch (error) {
-        //         console.error("Failed to fetch character data: ", error);
-        //         alert("Error fetching character information.");
-        //     }
-        // } else {
-        //     alert("Couldn't find logged in user or character id.");
-        // }
+        if (AccessToken !== null && charId !== null) {
+            try {
+                characterData = await helperFetchCharacterInfo(fetchUrl, AccessToken, payload);
+                console.log("characterData: ", characterData);
+            } catch (error) {
+                console.error("Failed to fetch character data: ", error);
+                alert("Error fetching character information.");
+            }
+        } else {
+            alert("Couldn't find logged in user or character id.");
+        }
     
         const finalData = {
             charPic: charPicture,
             userPic: userPicture,
-            history: offlineHistory
+            history: offlineHistory,
         }
+
+        // var fileUrl = extAPI.runtime.getURL('ReadOffline.html');
+        // var xhr = new XMLHttpRequest();
+        // xhr.open('GET', fileUrl, true);
+        // xhr.onreadystatechange = function () {
+        //     if (xhr.readyState === 4) {
+        //         var fileContents = xhr.responseText;
+        //         fileContents = fileContents.replace(
+        //             '<<<REPLACE_THIS_TEXT>>>',
+        //             JSON.stringify(finalData)
+        //         );
+
+        //         var blob = new Blob([fileContents], { type: 'text/html' });
+        //         var url = URL.createObjectURL(blob);
+
+        //         const link = document.createElement('a');
+        //         link.href = url;
+        //         link.download = default_character_name ? default_character_name.replaceAll(' ', '_') + '_Offline.html' : 'Offline_Chat.html';
+        //         link.click();
+        //     }
+        // };
+        // xhr.send();
 
         var fileUrl = extAPI.runtime.getURL('ReadOffline.html');
         var xhr = new XMLHttpRequest();
@@ -1297,13 +1319,24 @@
                     JSON.stringify(finalData)
                 );
 
+                // Create a Blob from the modified fileContents
                 var blob = new Blob([fileContents], { type: 'text/html' });
                 var url = URL.createObjectURL(blob);
 
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = default_character_name ? default_character_name.replaceAll(' ', '_') + '_Offline.html' : 'Offline_Chat.html';
-                link.click();
+                // Open a new window and load the Blob URL in an iframe
+                var newWindow = window.open();
+                newWindow.document.open();
+                newWindow.document.write(`
+                    <html>
+                        <head>
+                            <title>Offline Chat</title>
+                        </head>
+                        <body style="margin:0;">
+                            <iframe src="${url}" frameborder="0" style="border:none; width:100%; height:100%;"></iframe>
+                        </body>
+                    </html>
+                `);
+                newWindow.document.close();
             }
         };
         xhr.send();
