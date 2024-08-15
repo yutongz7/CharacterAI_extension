@@ -394,7 +394,7 @@
             // Update the informative text
             // handleProgressInfoHist(`(Loading history... ${fetchedChatNumber}/${historyLength})`);
             // show percentage
-            handleProgressInfoHist(`Requesting... ${Math.round(fetchedChatNumber / historyLength * 100)}% Complete`);
+            handleProgressInfoHist(`(Loading history... ${fetchedChatNumber}/${historyLength})`);
         }
 
         // Save history in meta tag
@@ -453,7 +453,7 @@
                             <span class='cait_progressInfo_Hist'>(Click the button to request data)</span>
                         </div>
                         <ul>
-                            <li data-cait_type='cai_hist_offline_read'>Download Data</li>
+                            <li data-cait_type='cai_hist_offline_read'>Offline History</li>
                         </ul>
                     </div>
                 </div>
@@ -698,33 +698,33 @@
             case "cai_offline_read":
                 Download_OfflineReading(chatData);
                 break;
-            case "cai_duplicate_chat":
-                DuplicateChat(chatData, 100);
-                break;
-            case "cai_duplicate_chat_full":
-                DuplicateChat(chatData);
-                break;
-            case "oobabooga":
-                if (charName === "NULL!") {
-                    alert("Character name couldn't be found!");
-                    return;
-                }
-                DownloadConversation_Oobabooga(chatData, charName);
-                break;
-            case "tavern":
-                if (charName === "NULL!") {
-                    alert("Character name couldn't be found!");
-                    return;
-                }
-                DownloadConversation_Tavern(chatData, charName);
-                break;
-            case "example_chat":
-                if (charName === "NULL!") {
-                    alert("Character name couldn't be found!");
-                    return;
-                }
-                DownloadConversation_ChatExample(chatData, charName);
-                break;
+            // case "cai_duplicate_chat":
+            //     DuplicateChat(chatData, 100);
+            //     break;
+            // case "cai_duplicate_chat_full":
+            //     DuplicateChat(chatData);
+            //     break;
+            // case "oobabooga":
+            //     if (charName === "NULL!") {
+            //         alert("Character name couldn't be found!");
+            //         return;
+            //     }
+            //     DownloadConversation_Oobabooga(chatData, charName);
+            //     break;
+            // case "tavern":
+            //     if (charName === "NULL!") {
+            //         alert("Character name couldn't be found!");
+            //         return;
+            //     }
+            //     DownloadConversation_Tavern(chatData, charName);
+            //     break;
+            // case "example_chat":
+            //     if (charName === "NULL!") {
+            //         alert("Character name couldn't be found!");
+            //         return;
+            //     }
+            //     DownloadConversation_ChatExample(chatData, charName);
+            //     break;
             default:
                 break;
         }
@@ -1217,20 +1217,20 @@
             case "cai_hist_offline_read":
                 Download_OfflineReading(historyData);
                 break;
-            case "example_chat":
-                if (charName === "NULL!") {
-                    alert("Character name couldn't be found!");
-                    return;
-                }
-                DownloadHistory_ExampleChat(historyData, charName);
-                break;
-            case "cai_tavern_history":
-                if (charName === "NULL!") {
-                    alert("Character name couldn't be found!");
-                    return;
-                }
-                DownloadHistory_TavernHistory(historyData, charName);
-                break;
+            // case "example_chat":
+            //     if (charName === "NULL!") {
+            //         alert("Character name couldn't be found!");
+            //         return;
+            //     }
+            //     DownloadHistory_ExampleChat(historyData, charName);
+            //     break;
+            // case "cai_tavern_history":
+            //     if (charName === "NULL!") {
+            //         alert("Character name couldn't be found!");
+            //         return;
+            //     }
+            //     DownloadHistory_TavernHistory(historyData, charName);
+            //     break;
             default:
                 break;
         }
@@ -1263,54 +1263,75 @@
         }
 
         // Character Info - Yutong
-        const fetchUrl = "https://plus.character.ai/chat/character/";
-        const AccessToken = getAccessToken();
-        const charId = getCharId();
-        const payload = { external_id: charId }
+        // const fetchUrl = "https://plus.character.ai/chat/character/";
+        // const AccessToken = getAccessToken();
+        // const charId = getCharId();
+        // const payload = { external_id: charId }
         
-        if (AccessToken !== null && charId !== null) {
-            try {
-                characterData = await helperFetchCharacterInfo(fetchUrl, AccessToken, payload);
-                console.log("characterData: ", characterData);
-            } catch (error) {
-                console.error("Failed to fetch character data: ", error);
-                alert("Error fetching character information.");
-            }
-        } else {
-            alert("Couldn't find logged in user or character id.");
-        }
+        // if (AccessToken !== null && charId !== null) {
+        //     try {
+        //         characterData = await helperFetchCharacterInfo(fetchUrl, AccessToken, payload);
+        //         console.log("characterData: ", characterData);
+        //     } catch (error) {
+        //         console.error("Failed to fetch character data: ", error);
+        //         alert("Error fetching character information.");
+        //     }
+        // } else {
+        //     alert("Couldn't find logged in user or character id.");
+        // }
     
         const finalData = {
-            charData: characterData.character,
             charPic: charPicture,
             userPic: userPicture,
             history: offlineHistory
         }
-    
-        // Create a JSON file instead HTML file, changed by Daniel S
-        const jsonString = JSON.stringify(finalData, null, 2);
-        const blob = new Blob([jsonString], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
 
-        function getUserNameFromHistory(history) {
-            for (let session of history) {
-                for (let chat of session.chat) {
-                    if (chat.isUser) {
-                        return chat.name;
-                    }
-                }
+        var fileUrl = extAPI.runtime.getURL('ReadOffline.html');
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', fileUrl, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                var fileContents = xhr.responseText;
+                fileContents = fileContents.replace(
+                    '<<<REPLACE_THIS_TEXT>>>',
+                    JSON.stringify(finalData)
+                );
+
+                var blob = new Blob([fileContents], { type: 'text/html' });
+                var url = URL.createObjectURL(blob);
+
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = default_character_name ? default_character_name.replaceAll(' ', '_') + '_Offline.html' : 'Offline_Chat.html';
+                link.click();
             }
-            return "No user found";
-        }
+        };
+        xhr.send();
+    
+        // // Create a JSON file instead HTML file, changed by Daniel S
+        // const jsonString = JSON.stringify(finalData, null, 2);
+        // const blob = new Blob([jsonString], { type: 'application/json' });
+        // const url = URL.createObjectURL(blob);
+        // const link = document.createElement('a');
 
-        // Update file name - Yutong
-        const currentDate = new Date();
-        const formattedDate = `${currentDate.getFullYear()}${currentDate.getMonth() + 1 < 10 ? '0' + (currentDate.getMonth() + 1) : currentDate.getMonth() + 1}${currentDate.getDate() < 10 ? '0' + currentDate.getDate() : currentDate.getDate()}`;
-        const userName = getUserNameFromHistory(offlineHistory);
-        link.href = url;
-        link.download = default_character_name ? `${userName}_${default_character_name.replaceAll(' ', '_')}_${formattedDate}_info.json` : `Offline_Chat_${formattedDate}.json`;
-        link.click();
+        // function getUserNameFromHistory(history) {
+        //     for (let session of history) {
+        //         for (let chat of session.chat) {
+        //             if (chat.isUser) {
+        //                 return chat.name;
+        //             }
+        //         }
+        //     }
+        //     return "No user found";
+        // }
+
+        // // Update file name - Yutong
+        // const currentDate = new Date();
+        // const formattedDate = `${currentDate.getFullYear()}${currentDate.getMonth() + 1 < 10 ? '0' + (currentDate.getMonth() + 1) : currentDate.getMonth() + 1}${currentDate.getDate() < 10 ? '0' + currentDate.getDate() : currentDate.getDate()}`;
+        // const userName = getUserNameFromHistory(offlineHistory);
+        // link.href = url;
+        // link.download = default_character_name ? `${userName}_${default_character_name.replaceAll(' ', '_')}_${formattedDate}_info.json` : `Offline_Chat_${formattedDate}.json`;
+        // link.click();
     }
     
 
