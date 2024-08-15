@@ -1252,13 +1252,13 @@
             // This is from history
             data.forEach(chat => {
                 const chatTemp = [];
-                chat.chat.forEach(msg => chatTemp.push({ isUser: msg.isHuman, name: msg.name, message: decodeURIComponent(msg.message) }));
+                chat.chat.forEach(msg => chatTemp.push({ isUser: msg.isHuman, name: msg.name, message: encodeURIComponent(msg.message) }));
                 offlineHistory.push({ date: chat.date, chat: chatTemp });
             });
         } else {
             // This is from conversation
             const chatTemp = [];
-            data.forEach(msg => chatTemp.push({ isUser: msg.isHuman, name: msg.name, message: decodeURIComponent(msg.message) }));
+            data.forEach(msg => chatTemp.push({ isUser: msg.isHuman, name: msg.name, message: encodeURIComponent(msg.message) }));
             offlineHistory.push({ date: data[0].date, chat: chatTemp });
         }
 
