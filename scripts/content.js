@@ -698,33 +698,6 @@
             case "cai_offline_read":
                 Download_OfflineReading(chatData);
                 break;
-            // case "cai_duplicate_chat":
-            //     DuplicateChat(chatData, 100);
-            //     break;
-            // case "cai_duplicate_chat_full":
-            //     DuplicateChat(chatData);
-            //     break;
-            // case "oobabooga":
-            //     if (charName === "NULL!") {
-            //         alert("Character name couldn't be found!");
-            //         return;
-            //     }
-            //     DownloadConversation_Oobabooga(chatData, charName);
-            //     break;
-            // case "tavern":
-            //     if (charName === "NULL!") {
-            //         alert("Character name couldn't be found!");
-            //         return;
-            //     }
-            //     DownloadConversation_Tavern(chatData, charName);
-            //     break;
-            // case "example_chat":
-            //     if (charName === "NULL!") {
-            //         alert("Character name couldn't be found!");
-            //         return;
-            //     }
-            //     DownloadConversation_ChatExample(chatData, charName);
-            //     break;
             default:
                 break;
         }

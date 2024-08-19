@@ -64,6 +64,22 @@ a[href="#-"] {
     background-color: #06689d;
 }
 
+.cai_tools-btn-cont {
+    display: flex;
+    flex-direction: column;
+    opacity: 0.9;
+    align-self: flex-start;
+    width: unset !important;
+    outline: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+    padding: 5px 16px;
+    border-radius: 6px;
+    transition: all 0.1s ease;
+    font-size: 1rem;
+    background-color: #06689d;
+}
+
 .cai_tools-btn:hover {
     background-color: #2577a3;
     opacity: 1;
@@ -109,6 +125,8 @@ a[href="#-"] {
     justify-content: space-between;
     align-items: center;
     padding: 10px;
+    width: 100%;
+    background-color: #1f1f1f;
 }
 
 .cai_tools .cait-header h4,
