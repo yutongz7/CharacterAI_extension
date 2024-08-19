@@ -1279,34 +1279,22 @@
         } else {
             alert("Couldn't find logged in user or character id.");
         }
+
+        function escapeJsonString(str) {
+            return str.replace(/\\/g, '\\\\')  // Escape backslashes
+                      .replace(/"/g, '\\"')    // Escape double quotes
+                      .replace(/\n/g, '\\n')    // Escape newlines
+                      .replace(/\r/g, '\\r')    // Escape carriage returns
+                      .replace(/\t/g, '\\t');   // Escape tabs
+        }
     
         const finalData = {
             charPic: charPicture,
             userPic: userPicture,
+            charData: characterData.character,
             history: offlineHistory,
         }
-
-        // var fileUrl = extAPI.runtime.getURL('ReadOffline.html');
-        // var xhr = new XMLHttpRequest();
-        // xhr.open('GET', fileUrl, true);
-        // xhr.onreadystatechange = function () {
-        //     if (xhr.readyState === 4) {
-        //         var fileContents = xhr.responseText;
-        //         fileContents = fileContents.replace(
-        //             '<<<REPLACE_THIS_TEXT>>>',
-        //             JSON.stringify(finalData)
-        //         );
-
-        //         var blob = new Blob([fileContents], { type: 'text/html' });
-        //         var url = URL.createObjectURL(blob);
-
-        //         const link = document.createElement('a');
-        //         link.href = url;
-        //         link.download = default_character_name ? default_character_name.replaceAll(' ', '_') + '_Offline.html' : 'Offline_Chat.html';
-        //         link.click();
-        //     }
-        // };
-        // xhr.send();
+        console.log("charData: ", characterData.character);
 
         var fileUrl = extAPI.runtime.getURL('ReadOffline.html');
         var xhr = new XMLHttpRequest();
@@ -1316,7 +1304,7 @@
                 var fileContents = xhr.responseText;
                 fileContents = fileContents.replace(
                     '<<<REPLACE_THIS_TEXT>>>',
-                    JSON.stringify(finalData)
+                    escapeJsonString(JSON.stringify(finalData))
                 );
 
                 // Create a Blob from the modified fileContents
@@ -1340,31 +1328,6 @@
             }
         };
         xhr.send();
-    
-        // // Create a JSON file instead HTML file, changed by Daniel S
-        // const jsonString = JSON.stringify(finalData, null, 2);
-        // const blob = new Blob([jsonString], { type: 'application/json' });
-        // const url = URL.createObjectURL(blob);
-        // const link = document.createElement('a');
-
-        // function getUserNameFromHistory(history) {
-        //     for (let session of history) {
-        //         for (let chat of session.chat) {
-        //             if (chat.isUser) {
-        //                 return chat.name;
-        //             }
-        //         }
-        //     }
-        //     return "No user found";
-        // }
-
-        // // Update file name - Yutong
-        // const currentDate = new Date();
-        // const formattedDate = `${currentDate.getFullYear()}${currentDate.getMonth() + 1 < 10 ? '0' + (currentDate.getMonth() + 1) : currentDate.getMonth() + 1}${currentDate.getDate() < 10 ? '0' + currentDate.getDate() : currentDate.getDate()}`;
-        // const userName = getUserNameFromHistory(offlineHistory);
-        // link.href = url;
-        // link.download = default_character_name ? `${userName}_${default_character_name.replaceAll(' ', '_')}_${formattedDate}_info.json` : `Offline_Chat_${formattedDate}.json`;
-        // link.click();
     }
     
 
