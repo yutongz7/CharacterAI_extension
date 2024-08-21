@@ -1275,10 +1275,20 @@
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
                 var fileContents = xhr.responseText;
+
+                // Replace placeholders in the HTML content
                 fileContents = fileContents.replace(
                     '<<<REPLACE_THIS_TEXT>>>',
                     escapeJsonString(JSON.stringify(finalData))
                 );
+
+                // Replace image paths with runtime URLs
+                var selectImageUrl = extAPI.runtime.getURL('../img/select.png');
+                var selectedImageUrl = extAPI.runtime.getURL('../img/selected.png');
+
+                // Replace the placeholder in the HTML content
+                fileContents = fileContents.replace(/img\/select\.png/g, selectImageUrl);
+                fileContents = fileContents.replace(/img\/selected\.png/g, selectedImageUrl);
 
                 // Create a Blob from the modified fileContents
                 var blob = new Blob([fileContents], { type: 'text/html' });
@@ -1300,6 +1310,7 @@
                 newWindow.document.close();
             }
         };
+
         xhr.send();
     }
     
