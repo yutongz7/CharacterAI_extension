@@ -453,7 +453,7 @@
                             <span class='cait_progressInfo_Hist'>(Click the button to request data)</span>
                         </div>
                         <ul>
-                            <li data-cait_type='cai_hist_offline_read'>Offline History</li>
+                            <li data-cait_type='cai_hist_offline_read'>Select History</li>
                         </ul>
                     </div>
                 </div>
